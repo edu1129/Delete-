@@ -1,0 +1,111 @@
+:root {
+    --primary-bg: #f4f4f9;
+    --secondary-bg: #ffffff;
+    --input-bg: #eef;
+    --button-bg: #5b5f97;
+    --button-hover-bg: #4a4e8a;
+    --text-color: #333;
+    --message-bg-odd: #e1e5f2;
+    --border-color: #ddd;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    background-color: var(--primary-bg);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+#chat-container {
+    width: 90%;
+    max-width: 600px;
+    height: 85vh;
+    background-color: var(--secondary-bg);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+#messages {
+    list-style-type: none;
+    margin: 0;
+    padding: 1rem;
+    flex-grow: 1;
+    overflow-y: auto;
+    word-wrap: break-word;
+}
+
+#messages > li {
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 5px;
+    line-height: 1.4;
+}
+
+#messages > li:nth-child(odd) {
+    background: var(--message-bg-odd);
+}
+
+#chat-form {
+    background: var(--primary-bg);
+    padding: 0.75rem;
+    display: flex;
+    border-top: 1px solid var(--border-color);
+}
+
+#message-input {
+    border: 1px solid var(--border-color);
+    padding: 0.75rem 1rem;
+    flex-grow: 1;
+    border-radius: 20px;
+    margin-right: 0.5rem;
+    font-size: 1rem;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+}
+
+#message-input:focus {
+    outline: none;
+    border-color: var(--button-bg);
+    box-shadow: 0 0 0 2px rgba(91, 95, 151, 0.2);
+}
+
+#chat-form > button {
+    background: var(--button-bg);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 20px;
+    outline: none;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#chat-form > button:hover {
+    background: var(--button-hover-bg);
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--primary-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #bbb;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}

@@ -129,7 +129,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const socket = io({ path: '/socket.io/' }); // Server se connect hoga
+            const socket = io({ path: '/socket.io/' });
 
             const messages = document.getElementById('messages');
             const form = document.getElementById('chat-form');
@@ -143,20 +143,20 @@
             };
 
             form.addEventListener('submit', (event) => {
+                // ************************************************
                 // YEH LINE PAGE REFRESH HONE SE ROKTI HAI
                 event.preventDefault();
+                // ************************************************
 
-                if (input.value.trim()) { // Check karein ki input khali na ho
-                    socket.emit('chat message', input.value); // Server ko message bheje
-                    input.value = ''; // Input field khali karein
-                    input.focus(); // Input field par focus rakhein
+                if (input.value.trim()) {
+                    socket.emit('chat message', input.value);
+                    input.value = '';
+                    input.focus();
                 }
             });
 
             socket.on('connect', () => {
                 console.log('Successfully connected to the chat server');
-                 // Connect hone par user ko suchit karein (optional)
-                // appendMessage('--- Connected to chat ---');
             });
 
             socket.on('disconnect', () => {
@@ -169,7 +169,6 @@
                  appendMessage(`--- Connection failed: ${err.message}. Please refresh. ---`);
             });
 
-            // Server se message receive hone par
             socket.on('chat message', (msg) => {
                 appendMessage(msg);
             });

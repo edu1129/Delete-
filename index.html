@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Realtime Chat V4</title>
+    <title>Realtime Chat V5</title>
     <style>
         :root {
             --primary-bg: #f4f4f9;
@@ -15,114 +15,28 @@
             --message-bg-odd: #e1e5f2;
             --border-color: #ddd;
         }
-
-        body {
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-            background-color: var(--primary-bg);
-            color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        #chat-container {
-            width: 90%;
-            max-width: 600px;
-            height: 85vh;
-            background-color: var(--secondary-bg);
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-        }
-
-        #messages {
-            list-style-type: none;
-            margin: 0;
-            padding: 1rem;
-            flex-grow: 1;
-            overflow-y: auto;
-            word-wrap: break-word;
-        }
-
-        #messages > li {
-            padding: 0.75rem 1rem;
-            margin-bottom: 0.5rem;
-            border-radius: 5px;
-            line-height: 1.4;
-        }
-
-        #messages > li:nth-child(odd) {
-            background: var(--message-bg-odd);
-        }
-
-        #chat-form {
-            background: var(--primary-bg);
-            padding: 0.75rem;
-            display: flex;
-            border-top: 1px solid var(--border-color);
-        }
-
-        #message-input {
-            border: 1px solid var(--border-color);
-            padding: 0.75rem 1rem;
-            flex-grow: 1;
-            border-radius: 20px;
-            margin-right: 0.5rem;
-            font-size: 1rem;
-            background-color: var(--input-bg);
-            color: var(--text-color);
-        }
-
-        #message-input:focus {
-            outline: none;
-            border-color: var(--button-bg);
-            box-shadow: 0 0 0 2px rgba(91, 95, 151, 0.2);
-        }
-
-        #chat-form > button {
-            background: var(--button-bg);
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 20px;
-            outline: none;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-
-        #chat-form > button:hover {
-            background: var(--button-hover-bg);
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--primary-bg);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #bbb;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #999;
-        }
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--primary-bg); color: var(--text-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        #chat-container { width: 90%; max-width: 600px; height: 85vh; background-color: var(--secondary-bg); border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--border-color); }
+        #messages { list-style-type: none; margin: 0; padding: 1rem; flex-grow: 1; overflow-y: auto; word-wrap: break-word; }
+        #messages > li { padding: 0.75rem 1rem; margin-bottom: 0.5rem; border-radius: 5px; line-height: 1.4; }
+        #messages > li:nth-child(odd) { background: var(--message-bg-odd); }
+        #chat-form { background: var(--primary-bg); padding: 0.75rem; display: flex; border-top: 1px solid var(--border-color); }
+        #message-input { border: 1px solid var(--border-color); padding: 0.75rem 1rem; flex-grow: 1; border-radius: 20px; margin-right: 0.5rem; font-size: 1rem; background-color: var(--input-bg); color: var(--text-color); }
+        #message-input:focus { outline: none; border-color: var(--button-bg); box-shadow: 0 0 0 2px rgba(91, 95, 151, 0.2); }
+        #send-button { background: var(--button-bg); border: none; padding: 0.75rem 1.5rem; border-radius: 20px; outline: none; color: white; font-size: 1rem; cursor: pointer; transition: background-color 0.2s ease; }
+        #send-button:hover { background: var(--button-hover-bg); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--primary-bg); }
+        ::-webkit-scrollbar-thumb { background: #bbb; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #999; }
     </style>
 </head>
 <body>
     <div id="chat-container">
         <ul id="messages"></ul>
-        <form id="chat-form" action="">
-            <input id="message-input" autocomplete="off" placeholder="Type a message..." /><button type="submit">Send</button>
+        <form id="chat-form" action="javascript:void(0);">
+            <input id="message-input" autocomplete="off" placeholder="Type a message..." />
+            <button type="button" id="send-button">Send</button>
         </form>
     </div>
 
@@ -132,41 +46,57 @@
             const socket = io({ path: '/socket.io/' });
 
             const messages = document.getElementById('messages');
-            const form = document.getElementById('chat-form');
+            const form = document.getElementById('chat-form'); // Form reference abhi bhi rakhenge, shayad future mein use ho
             const input = document.getElementById('message-input');
+            const sendButton = document.getElementById('send-button'); // Button ka reference
 
-            const appendMessage = (msg) => {
+            const appendMessage = (msg, type = 'normal') => {
                 const item = document.createElement('li');
                 item.textContent = msg;
+                if (type === 'error') {
+                    item.style.color = 'red';
+                    item.style.fontStyle = 'italic';
+                } else if (type === 'info') {
+                     item.style.color = 'gray';
+                     item.style.fontStyle = 'italic';
+                }
                 messages.appendChild(item);
                 messages.scrollTop = messages.scrollHeight;
             };
 
-            form.addEventListener('submit', (event) => {
-                // ************************************************
-                // YEH LINE PAGE REFRESH HONE SE ROKTI HAI
-                event.preventDefault();
-                // ************************************************
-
+            const sendMessage = () => {
                 if (input.value.trim()) {
-                    socket.emit('chat message', input.value);
-                    input.value = '';
-                    input.focus();
+                    const message = input.value;
+                    socket.emit('chat message', message);
+                    input.value = ''; // Input clear karein
+                    input.focus(); // Input par focus karein
+                }
+            };
+
+            // Button click par message bhejna
+            sendButton.addEventListener('click', sendMessage);
+
+            // Input field mein Enter dabane par bhi message bhejna
+            input.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // Enter ka default behavior (submit/newline) rokein
+                    sendMessage(); // Message bhejein
                 }
             });
 
             socket.on('connect', () => {
-                console.log('Successfully connected to the chat server');
+                console.log('Socket connected:', socket.id);
+                // appendMessage('--- Connected ---', 'info');
             });
 
-            socket.on('disconnect', () => {
-                console.log('Disconnected from the chat server');
-                appendMessage('--- You have been disconnected ---');
+            socket.on('disconnect', (reason) => {
+                console.log('Socket disconnected:', reason);
+                appendMessage(`--- Disconnected: ${reason} ---`, 'error');
             });
 
             socket.on('connect_error', (err) => {
-                 console.error('Connection Error:', err.message);
-                 appendMessage(`--- Connection failed: ${err.message}. Please refresh. ---`);
+                 console.error('Connection Error:', err);
+                 appendMessage(`--- Connection failed: ${err.message} ---`, 'error');
             });
 
             socket.on('chat message', (msg) => {

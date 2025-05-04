@@ -15,19 +15,19 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     if (input.value && input.value.trim() !== '') {
-      socket.emit('chat message', input.value.trim());
+      socket.emit('chat message', input.value);
       input.value = '';
       input.focus();
     }
   });
   
   socket.on('connect', () => {
-    console.log('Connected to chat server');
+    console.log('Connected to server');
   });
   
   socket.on('disconnect', () => {
-    console.log('Disconnected from chat server');
-    appendMessage('--- Server connection lost ---');
+    console.log('Disconnected from server');
+    appendMessage('--- You have been disconnected ---');
   });
   
   socket.on('connect_error', (err) => {

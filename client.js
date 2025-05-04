@@ -14,27 +14,26 @@ document.addEventListener('DOMContentLoaded', () => {
   
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    if (input.value) {
-      socket.emit('chat message', input.value);
+    if (input.value && input.value.trim() !== '') {
+      socket.emit('chat message', input.value.trim());
       input.value = '';
       input.focus();
     }
   });
   
   socket.on('connect', () => {
-    console.log('Connected to server');
+    console.log('Connected to chat server');
   });
   
   socket.on('disconnect', () => {
-    console.log('Disconnected from server');
-    appendMessage('--- You have been disconnected ---');
+    console.log('Disconnected from chat server');
+    appendMessage('--- Server connection lost ---');
   });
   
   socket.on('connect_error', (err) => {
     console.error('Connection Error:', err);
     appendMessage(`--- Connection failed: ${err.message} ---`);
   });
-  
   
   socket.on('chat message', (msg) => {
     appendMessage(msg);
